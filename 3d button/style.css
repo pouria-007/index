@@ -7,6 +7,7 @@ body{
     justify-content: center;
     align-items: center;
     background-color: rgb(142, 181, 255);
+    text-align: center;
 }
 #button{
     top: 0;
