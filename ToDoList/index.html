@@ -20,6 +20,7 @@
             text-align: center;
             font-family: Cute;
             align-content: center;
+            transition: 0.3s;
         }
         #Box 
         {
@@ -38,8 +39,8 @@
             padding-bottom: 15px;
             border-radius: 10px;
             margin: auto;
-            margin-top: 20px;
-            margin-bottom: 20px;
+            margin-top: 10px;
+            margin-bottom: 10px;
             width: 90%;
             font-size: 30px;
             display: inline-block;
@@ -52,12 +53,24 @@
             width: 95%;
             height: 95%;
             overflow-y: scroll;
+            overflow-x: hidden;
         }
         .Element-Div
         {
             position: relative;
             display: block;
         }
+        @keyframes NewItemAnimation
+        {
+            from {height: 0; opacity: 0;}
+            to {height: 80px; opacity: 1;}
+        }
+        @keyframes RemoveItemAnimation
+        {
+            from {height: 80px; opacity: 1;}
+            to {height: 0; opacity: 0;}
+        }
+
         #Add
         {
             font-size: 70px;
@@ -66,6 +79,7 @@
             bottom: 0;
             padding: 0;
             position: relative;
+            transition: 0.3s;
         }
         #Add-Button
         {
@@ -82,6 +96,27 @@
         {
             background-color: rgba(122, 147, 151, 0.541);
         }
+        @keyframes Hide 
+        {
+            from{opacity: 1; left: 0;}
+            to {opacity: 0; left: 50px;}    
+        }
+        @keyframes Show
+        {
+            from{opacity: 0; left: 50px;}
+            to {opacity: 1; left: 0;}
+        }
+        @keyframes InputBoxAnimation 
+        {
+            from{width: 0%;}
+            to {width: 70%;}    
+        }
+        @keyframes InputBoxHide
+        {
+            from{width: 70%;}
+            to {width: 0;}    
+        }
+
         .delete
         {
             width: 30px;
@@ -92,7 +127,7 @@
             background-position: center;
             display: inline-block;
             position: absolute;
-            margin-top: 32px;
+            margin-top: 22px;
             left: 5px;
             padding: 5px;
             border-radius: 5px;
@@ -141,43 +176,6 @@
 
 </body>
 
-
-<script>
-    function ToDoInput()
-    {
-        document.getElementById('Add-Button').innerHTML =
-        '<input type="text" id="Input-Box" onkeypress="AddToList(event)">';
-
-        var inputbox = document.getElementById('Input-Box');
-        inputbox.focus();
-    }
-
-    function AddToList(event) 
-    {
-        if (event.keyCode === 13)
-        {
-            event.preventDefault();
-
-            var Item = document.createElement("div");
-            Item.setAttribute("class", "Element-Div");
-
-            var DelButton = document.createElement("div");
-            DelButton.setAttribute("class", "delete");
-            Item.appendChild(DelButton);
-
-            var text = document.createElement("label");
-            text.setAttribute("class", "Elements");
-            text.innerText = document.getElementById('Input-Box').value;
-            Item.appendChild(text);
-
-            var First = document.getElementById("Container").firstChild;
-            document.getElementById("Container").insertBefore(Item, First);
-
-            document.getElementById("Add-Button").innerHTML = 
-            '<label class="Elements" id="Add" onclick="ToDoInput()">+</label>';
-        }    
-    }
-</script>
-
+<script src="app.js"></script>
 
 </html>
