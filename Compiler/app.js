@@ -1,8 +1,8 @@
 document.getElementById("run").addEventListener("click", () => {
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'https://pooriya007.pythonanywhere.com/');
     var Mycode = document.getElementById("input").value;
-    xhr.setRequestHeader('code', Mycode);
+    xhr.open('POST', 'https://pooriya007.pythonanywhere.com/?code=' + Mycode);
+    //xhr.setRequestHeader('code', 'n = 5\nwhile n > 0:\n n -= 1\n print(n)');
     xhr.setRequestHeader('lang', 'py');
     xhr.send();
 
