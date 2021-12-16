@@ -5,7 +5,33 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">  
     <title>Compiler</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
+
+    <script type="text/javascript" 
+            src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js">
+    </script>
+	<script type="text/javascript">
+        $(document).ready(function () {
+			
+		 $('#ajaxBtn').click(function(){
+			
+			$.ajax('https://pooriya007.pythonanywhere.com/', {
+				type: 'POST',  // http method
+				data: { code: document.getElementById("input").value,
+                        lang: 'py' },  // data to submit
+				success: function (data, status, xhr) {
+					document.getElementById("out").innerText = xhr.responseText;
+				},
+				error: function (jqXhr, textStatus, errorMessage) {
+                    document.getElementById("out").innerText = "ERROR";
+				}
+			});
+		});
+    });
+    </script>
+
+
 
     <style>
         body {
@@ -29,10 +55,8 @@
     <h1>TWICE</h1>
     <textarea id="input" cols="30" rows="10"></textarea>
     <br>
-    <button id="run">Run this Shit</button>
+    <input type="button" id="ajaxBtn" value="Send Ajax request" />
     <p id="out">lorem</p>
 </body>
-
-<script src="app.js"></script>
 
 </html>
