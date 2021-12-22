@@ -55,14 +55,42 @@
         font-size: 17px;  
         font-family: monospace; 
     }  
-    a{  
-        float: right;  
-        background-color: grey; 
-        font-family: monospace;  
+    p{  
+        text-align: center;
+        font-size: 12px;
     }  
 
 
     </style> 
+
+
+
+
+    <script type="text/javascript" 
+        src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js">
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('#log').click(function(){
+
+                $.ajax('http://twicemed.pythonanywhere.com/', {
+                    type: 'POST',
+                    data: { uname: document.getElementById("Uname").value,
+                            pword: document.getElementById("Pass").value,},
+                    success: function (data, status, xhr) {
+                        document.getElementById("result").innerText = xhr.responseText;
+                    },
+                    error: function (jqXhr, textStatus, errorMessage) {
+                        document.getElementById("result").innerText = "Server Error";
+                    }
+                });
+            });
+        });
+    </script>
+
+
+
 </head>    
 <body>    
     <h2>Login Page</h2><br>    
@@ -81,5 +109,10 @@
         <input type="button" name="log" id="log" value="Log In Here">            
     </form>     
 </div>    
+
+<br><br>
+
+<p id="result"></p>
+
 </body>    
 </html> 
