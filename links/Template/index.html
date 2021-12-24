@@ -51,6 +51,7 @@
 
         .button {
             width: 80%;
+            height: 28px;
             border-style: solid;
             border-color: rgba(180, 57, 180, 0.315);
             background-color:transparent;
@@ -63,6 +64,7 @@
             cursor: pointer;
             transition: 0.3s;
             display: block;
+            position: relative;
         }
         .button:hover {
             background-color: rgba(139, 27, 151, 0.24);
@@ -121,8 +123,41 @@
             border-style: solid;
             border-color: rgb(83, 36, 76);
             margin: auto;
+            box-shadow: 0 0 30px rgb(122, 79, 118);
         }
-
+        h3{
+            font-size: 40px;
+            margin: 0;
+            margin-top: 15px;
+            text-shadow: 0 2px 30px rgb(102, 52, 98),
+                         0 -2px 30px rgb(102, 52, 98),
+                         2px 0 30px rgb(102, 52, 98),
+                         -2px 0 30px rgb(102, 52, 98);
+        }
+        span{
+            font-size: 60px;
+            font-weight: 900;
+            top: 0%;
+            position: absolute;
+            height: 100%;
+            top: 14px;
+        }
+        .delete{
+            width: 30px;
+            height: 30px;
+            background-image: url(bin.png);
+            background-size: 30px;
+            background-repeat: no-repeat;
+            background-position: center;
+            display: inline-block;
+            position: absolute;
+            left: 8px;
+            top: 15px;
+            padding: 5px;
+            border-radius: 5px;
+            opacity: 0.8;
+            transition: 0.3s;
+        }
         @media only screen and (min-width: 768px) {
             .button{
                 width: 40%;
@@ -145,8 +180,11 @@
 
     <div id="pfp"></div>
 
+    <h3>Kim Jisoo</h3>
 
-    <a class="button" href="https://www.instagram.com/twice.team.games/">instagram</a>
+    <a class="button" href="https://www.instagram.com/twice.team.games/"><div class="delete"></div> instagram</a>
+
+    <div class="button" id="addlink" onclick="ToDoInput()"><span>+</span></div>
 
 
     <div id="footer"></div>
@@ -158,5 +196,60 @@
     </div>
   
 </body>
+
+
+
+<script>
+
+    function ToDoInput()
+    {
+        window.prompt("name")
+        window.prompt("pword")
+    }
+
+    function AddToList(event) 
+    {
+        let AnimationID;
+
+        if (event.keyCode === 13)
+        {
+            event.preventDefault();
+
+            document.getElementById("Add").style.animation = "Show 0.5s 1";
+            var inputbox = document.getElementById('Input-Box');
+            inputbox.style.animation = "InputBoxHide 0.5s 1";
+            inputbox.addEventListener('animationend', function() {
+                inputbox.remove();
+            });
+
+            var Item = document.createElement("div");
+            Item.setAttribute("class", "Element-Div");
+
+            var DelButton = document.createElement("div");
+            DelButton.setAttribute("class", "delete");
+            Item.appendChild(DelButton);
+            DelButton.onclick = function() 
+            {
+                Item.style.animation = "RemoveItemAnimation 1s 1";
+                Item.addEventListener('animationend', function() {
+                    Item.remove();
+                });
+            }
+
+            var text = document.createElement("label");
+            text.setAttribute("class", "Elements");
+            text.innerText = document.getElementById('Input-Box').value;
+            Item.appendChild(text);
+
+            document.getElementById("Add-Button").before(Item);
+
+            Item.style.animation = "NewItemAnimation 1s 1";
+        }    
+    }
+
+</script>
+
+
+
 
 </html>
