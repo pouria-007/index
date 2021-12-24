@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TWICE games</title>
+    <title>TWICE LINKS</title>
 
     <style>
         body{
@@ -22,6 +22,45 @@
             color: rgb(129, 72, 131);
             cursor: default;
             overflow-x: hidden;
+        }
+        #loading{
+            background-color: rgb(31, 24, 29);
+            z-index: 5;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: 0;
+            border: 0;
+            padding: 0;
+            transition: 0.5s;
+        }
+        #spinner{
+            width: 100px;
+            height: 100px;
+            margin: auto;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            border: 0;
+            padding: 0;
+            border-width: 5px;
+            border-left-color: rgb(95, 47, 84);
+            border-radius: 100%;
+            border-left-style: solid;
+            animation: spin 2s infinite linear;
+        }
+        @keyframes spin {
+            100%{
+                transform: rotate(360deg);
+            }
+        }
+        @keyframes fadeout {
+            from{opacity: 1;}
+            to{opacity: 0;}
         }
         h1{
             opacity: 1;
@@ -134,13 +173,11 @@
                          2px 0 30px rgb(102, 52, 98),
                          -2px 0 30px rgb(102, 52, 98);
         }
-        span{
-            font-size: 60px;
-            font-weight: 900;
-            top: 0%;
-            position: absolute;
-            height: 100%;
-            top: 14px;
+        #addlink{
+            border-style: dashed;
+        }
+        #addlink::selection{
+            display: none;
         }
         .delete{
             width: 30px;
@@ -175,6 +212,9 @@
 
 </head>
 <body>
+    <div id="loading">
+        <div id="spinner"></div>
+    </div>
     <h1>TWICE</h1>
     <h2>LINKS</h2>
 
@@ -184,7 +224,7 @@
 
     <a class="button" href="https://www.instagram.com/twice.team.games/"><div class="delete"></div> instagram</a>
 
-    <div class="button" id="addlink" onclick="ToDoInput()"><span>+</span></div>
+    <div class="button" id="addlink" onclick="ToDoInput()">NEW LINK</div>
 
 
     <div id="footer"></div>
@@ -200,11 +240,12 @@
 
 
 <script>
-
+    var linkname = '';
+    var linkaddress = '';
     function ToDoInput()
     {
-        window.prompt("name")
-        window.prompt("pword")
+        linkname = window.prompt("Link Name:")
+        linkaddress = window.prompt("Link URL:")
     }
 
     function AddToList(event) 
@@ -250,6 +291,15 @@
 </script>
 
 
+<script>
+    window.addEventListener("load", function() {
+        var loading = document.getElementById("loading");
+        loading.style.animation = "fadeout 1s 1";
+        loading.addEventListener('animationend', function() {
+                loading.remove();
+            });
+    });
+</script>
 
 
 </html>
