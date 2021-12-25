@@ -17,14 +17,14 @@
             margin: 0;
             padding: 0;
             border: 0;
-            font-family: twice;
+            font-family: newfont;
             text-align: center;
             color: rgb(129, 72, 131);
             cursor: default;
             overflow-x: hidden;
         }
         #loading{
-            background-color: rgb(31, 24, 29);
+            background-color: rgb(43, 29, 44);
             z-index: 5;
             position: absolute;
             top: 0;
@@ -35,28 +35,6 @@
             border: 0;
             padding: 0;
             transition: 0.5s;
-        }
-        #spinner{
-            width: 100px;
-            height: 100px;
-            margin: auto;
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            border: 0;
-            padding: 0;
-            border-width: 5px;
-            border-left-color: rgb(95, 47, 84);
-            border-radius: 100%;
-            border-left-style: solid;
-            animation: spin 2s infinite linear;
-        }
-        @keyframes spin {
-            100%{
-                transform: rotate(360deg);
-            }
         }
         @keyframes fadeout {
             from{opacity: 1;}
@@ -70,6 +48,7 @@
             opacity: 0.7;
             margin: 0;
             margin-top: 15px;
+            font-family: twice;
         }
         h1::selection{
             color: inherit;
@@ -79,6 +58,7 @@
             margin-top: 8px;
             opacity: 0.7;
             letter-spacing: 5px;
+            font-family: twice;
         }
         h2::selection{
             color: inherit;
@@ -87,10 +67,14 @@
             font-family: twice;
             src: url("antipasto.thin.ttf");
         }
+        @font-face {
+            font-family: newfont;
+            src: url("watchword-demo.thin-demo.otf");
+        }
 
         .button {
             width: 80%;
-            height: 28px;
+            height: fit-content;
             border-style: solid;
             border-color: rgba(180, 57, 180, 0.315);
             background-color:transparent;
@@ -147,10 +131,40 @@
             width: 100%;
             height: 100%;
         }
-        #footer{
-            width: 100%;
-            height: 50px;
-            background-color: transparent;
+        #errorlog{
+            position: absolute;
+            z-index: 5;
+            top: -80px;
+            right: 0;
+            left: 0;
+            margin: auto;
+            width: 90%;
+            background-color: rgb(105, 46, 97);
+            border-radius: 0 0 5px 5px;
+            color: rgb(231, 135, 226);
+            padding: 0;
+            padding-top: 20px;
+            padding-bottom: 15px;
+            font-size: 25px;
+        }
+        #errorx{
+            width: 60px;
+            height: 38px;
+            display: inline-block;
+            position: absolute;
+            left: 0px;
+            top: 0;
+            padding-top: 20px;
+            font-weight: 900;
+            z-index: 6;
+        }
+        @keyframes errorin {
+            from{top: -80px;}
+            to{top: 0;}
+        }
+        @keyframes errorout {
+            from{top: 0;}
+            to{top: -80px;}
         }
         #pfp{
             width: 200px;
@@ -167,6 +181,7 @@
         h3{
             font-size: 40px;
             margin: 0;
+            font-weight: 200;
             margin-top: 15px;
             text-shadow: 0 2px 30px rgb(102, 52, 98),
                          0 -2px 30px rgb(102, 52, 98),
@@ -179,21 +194,52 @@
         #addlink::selection{
             display: none;
         }
-        .delete{
-            width: 30px;
-            height: 30px;
-            background-image: url(bin.png);
-            background-size: 30px;
-            background-repeat: no-repeat;
-            background-position: center;
+        .edit-item{
+            width: 50px;
+            height: 42px;
             display: inline-block;
-            position: absolute;
-            left: 8px;
-            top: 15px;
+            position: relative;
             padding: 5px;
-            border-radius: 5px;
-            opacity: 0.8;
+            padding-top: 10px;
+            margin-left: 10px;
+            margin-right: 10px;
+            font-weight: 900;
             transition: 0.3s;
+            background-color: red;
+        }
+        .edit-item-space{
+            display: inline-block;
+            height: 42px;
+            width: 10px;
+            position: relative;
+            background-color: greenyellow;
+        }
+        .edit{
+            width: 90%;
+            height: 60px;
+            border-radius: 10px 10px 0 0;
+            border-width: 2px;
+            border-bottom-width: 0;
+            border-style: dashed;
+            border-color: rgb(85, 51, 83);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: -62px;
+            background-color: grey;
+        }
+        #moveuplink{
+            background-image: url("up.png");
+            background-size: cover;
+        }
+        #movedownlink{
+            background-image: url("down.png");
+            background-size: cover;
+        }
+        #linkurl{
+            background-image: url("link.png");
+            background-size: cover;
         }
         @media only screen and (min-width: 768px) {
             .button{
@@ -213,8 +259,10 @@
 </head>
 <body>
     <div id="loading">
-        <div id="spinner"></div>
     </div>
+
+    <div id="errorlog"><div id="errorx">X</div><span id="error-m">Name can't be empty</span></div>
+
     <h1>TWICE</h1>
     <h2>LINKS</h2>
 
@@ -222,13 +270,20 @@
 
     <h3>Kim Jisoo</h3>
 
-    <a class="button" href="https://www.instagram.com/twice.team.games/"><div class="delete"></div> instagram</a>
+    <div class="button"> 
+        <span>Instagram</span>
+        <div class="edit">
+            <div class="edit-item" id="deletelink">X</div>
+            <div class="edit-item-space">|</div>
+            <div class="edit-item" id="moveuplink"></div>
+            <div class="edit-item-space">|</div>
+            <div class="edit-item" id="linkurl"></div>
+            <div class="edit-item-space">|</div>
+            <div class="edit-item" id="movedownlink"></div>
+        </div>
+    </div>
 
     <div class="button" id="addlink" onclick="ToDoInput()">NEW LINK</div>
-    <img src="qq.png" alt="">
-    <img src="quality.jpg" alt="">
-    <img src="quality2.jpg" alt="">
-    <div id="footer"></div>
 
     <div class="space-bg">
         <video class="video" muted="" loop="" playsinline="" autoplay>
@@ -243,12 +298,38 @@
 <script>
     var linkname = '';
     var linkaddress = '';
-    function ToDoInput()
-    {
-        linkname = window.prompt("Link Name:")
-        linkaddress = window.prompt("Link URL:")
+
+    const error = document.getElementById("errorlog");
+    const messege = document.getElementById("error-m");
+
+    //Error Log
+    document.getElementById('errorx').addEventListener("click", function() {
+        error.style.animation = "errorout 0.5s 1";
+        error.addEventListener('animationend', function() {error.style = "top: -80px;"});
+    })
+    function errorman(sms) {
+        messege.innerText = sms;
+        error.style.animation = "errorin 0.5s 1";
+        error.addEventListener('animationend', function() {error.style = "top: 0;"});
     }
 
+    //Add Link Function
+    function ToDoInput()
+    {
+        linkname = window.prompt("Link Name:\nex: Twice");
+        linkaddress = window.prompt("Link URL:\nex: https://twice.team");
+        
+        if (linkname == '' && linkaddress == '') {
+            errorman("Link name and URL can't be empty");
+        }
+        else if (linkname == ''){
+            errorman("Link name can't be empty");
+        }
+        else if (linkaddress == ''){
+            errorman("Link URL can't be empty");
+        }
+    }
+    
     function AddToList(event) 
     {
         let AnimationID;
