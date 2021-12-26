@@ -82,16 +82,12 @@
             font-size: 35px;
             text-align: center;
             margin: auto;
-            padding: 20px;
-            margin-top: 50px;
+            padding: 10px;
+            margin-top: 90px;
             cursor: pointer;
             transition: 0.3s;
             display: block;
             position: relative;
-        }
-        .button:hover {
-            background-color: rgba(139, 27, 151, 0.24);
-            border-color: rgba(233, 120, 233, 0.267);
         }
         a {
             text-decoration: none;
@@ -190,6 +186,7 @@
         }
         #addlink{
             border-style: dashed;
+            margin-top: 40px;
         }
         #addlink::selection{
             display: none;
@@ -205,12 +202,16 @@
             margin-right: 10px;
             font-weight: 900;
             transition: 0.3s;
+            opacity: 0.5;
         }
         .edit-item-space{
             display: inline-block;
             height: 42px;
             width: 10px;
             position: relative;
+            background-image: url("line.png");
+            background-size: cover;
+            opacity: 0.5;
         }
         .edit{
             width: 90%;
@@ -226,34 +227,25 @@
             position: absolute;
             top: -62px;
         }
-        #moveuplink{
+        .moveuplink{
             background-image: url("up.png");
             background-size: cover;
         }
-        #movedownlink{
+        .movedownlink{
             background-image: url("down.png");
             background-size: cover;
         }
-        #linkurl{
+        .linkurl{
             background-image: url("link.png");
             background-size: cover;
         }
-        #deletelink{
-            font-weight: 100;
-            color: rgb(179, 61, 169);
-            font-family: sans-serif;
+        .deletelink{
+            background-image: url("x.png");
+            background-size: cover;
         }
         @media only screen and (min-width: 768px) {
             .button{
                 width: 40%;
-                color: rgba(247, 109, 247, 0.493);
-            }
-            a {
-                font-weight: 900;
-                color: inherit;
-            }
-            .button:hover{
-                color: rgba(247, 109, 247, 0.678);
             }
         }
     </style>
@@ -275,13 +267,13 @@
     <div class="button"> 
         <span>Instagram</span>
         <div class="edit">
-            <div class="edit-item" id="deletelink">X</div>
-            <div class="edit-item-space">|</div>
-            <div class="edit-item" id="moveuplink"></div>
-            <div class="edit-item-space">|</div>
-            <div class="edit-item" id="linkurl"></div>
-            <div class="edit-item-space">|</div>
-            <div class="edit-item" id="movedownlink"></div>
+            <div class="edit-item deletelink"></div>
+            <div class="edit-item-space"></div>
+            <div class="edit-item moveuplink"></div>
+            <div class="edit-item-space"></div>
+            <div class="edit-item movedownlink"></div>
+            <div class="edit-item-space"></div>
+            <div class="edit-item linkurl"></div>
         </div>
     </div>
 
@@ -330,46 +322,55 @@
         else if (linkaddress == ''){
             errorman("Link URL can't be empty");
         }
+        else {
+            AddToLinks();
+        }
     }
     
-    function AddToList(event) 
+    function AddToLinks() 
     {
-        let AnimationID;
+        var newlink = document.createElement("div");
+        newlink.setAttribute("class", "button");
 
-        if (event.keyCode === 13)
-        {
-            event.preventDefault();
+        linkspan = document.createElement("span");
+        linkspan.innerText = linkname;
+        newlink.appendChild(linkspan);
 
-            document.getElementById("Add").style.animation = "Show 0.5s 1";
-            var inputbox = document.getElementById('Input-Box');
-            inputbox.style.animation = "InputBoxHide 0.5s 1";
-            inputbox.addEventListener('animationend', function() {
-                inputbox.remove();
-            });
+        linkeditbar = document.createElement("div");
+        linkeditbar.setAttribute("class", "edit");
+        
+            itemspace1 = document.createElement("div");
+            itemspace1.setAttribute("class", "edit-item-space");
+            itemspace2 = document.createElement("div");
+            itemspace2.setAttribute("class", "edit-item-space");
+            itemspace3 = document.createElement("div");
+            itemspace3.setAttribute("class", "edit-item-space");
 
-            var Item = document.createElement("div");
-            Item.setAttribute("class", "Element-Div");
+            deletelink = document.createElement("div");
+            deletelink.setAttribute("class", "edit-item deletelink");
 
-            var DelButton = document.createElement("div");
-            DelButton.setAttribute("class", "delete");
-            Item.appendChild(DelButton);
-            DelButton.onclick = function() 
-            {
-                Item.style.animation = "RemoveItemAnimation 1s 1";
-                Item.addEventListener('animationend', function() {
-                    Item.remove();
-                });
-            }
+            editurl = document.createElement("div");
+            editurl.setAttribute("class", "edit-item linkurl");
 
-            var text = document.createElement("label");
-            text.setAttribute("class", "Elements");
-            text.innerText = document.getElementById('Input-Box').value;
-            Item.appendChild(text);
+            moveup = document.createElement("div");
+            moveup.setAttribute("class", "edit-item moveuplink");
 
-            document.getElementById("Add-Button").before(Item);
+            movedown = document.createElement("div");
+            movedown.setAttribute("class", "edit-item movedownlink");
 
-            Item.style.animation = "NewItemAnimation 1s 1";
-        }    
+        linkeditbar.appendChild(deletelink);
+        linkeditbar.appendChild(moveup);
+        linkeditbar.appendChild(movedown);
+        linkeditbar.appendChild(editurl);
+        editurl.before(itemspace1);
+        movedown.before(itemspace2);
+        moveup.before(itemspace3);
+
+        newlink.appendChild(linkeditbar);
+
+        
+
+        document.getElementById("addlink").before(newlink);
     }
 
 </script>
