@@ -128,11 +128,11 @@
             height: 100%;
         }
         #errorlog{
-            position: absolute;
+            position: fixed;
             z-index: 5;
-            top: -80px;
             right: 0;
             left: 0;
+            top: -80px;
             margin: auto;
             width: 90%;
             background-color: rgb(105, 46, 97);
@@ -162,6 +162,10 @@
             from{top: 0;}
             to{top: -80px;}
         }
+        @keyframes removeitem {
+            from{opacity: 1; height: auto; padding: 10px;}
+            to{opacity: 0; height: 0; padding: 0;}
+        }
         #pfp{
             width: 200px;
             height: 200px;
@@ -187,6 +191,7 @@
         #addlink{
             border-style: dashed;
             margin-top: 40px;
+            margin-bottom: 60px;
         }
         #addlink::selection{
             display: none;
@@ -313,10 +318,7 @@
         linkname = window.prompt("Link Name:\nex: Twice");
         linkaddress = window.prompt("Link URL:\nex: https://twice.team");
         
-        if (linkname == '' && linkaddress == '') {
-            errorman("Link name and URL can't be empty");
-        }
-        else if (linkname == ''){
+        if (linkname == ''){
             errorman("Link name can't be empty");
         }
         else if (linkaddress == ''){
@@ -348,6 +350,12 @@
 
             deletelink = document.createElement("div");
             deletelink.setAttribute("class", "edit-item deletelink");
+            deletelink.addEventListener("click", function(){
+                newlink.style.animation = "removeitem 1s 1";
+                newlink.addEventListener('animationend', function() {
+                    newlink.remove();
+                });
+            });
 
             editurl = document.createElement("div");
             editurl.setAttribute("class", "edit-item linkurl");
