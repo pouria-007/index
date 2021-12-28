@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <title>TWICE LINKS</title>
 
     <style>
@@ -163,8 +164,16 @@
             to{top: -80px;}
         }
         @keyframes removeitem {
-            from{opacity: 1; height: auto; padding: 10px;}
-            to{opacity: 0; height: 0; padding: 0;}
+            50%{opacity: 0; font-size: 0;}
+            100%{opacity: 0; height: 0; padding: 0; margin-top: 0; margin-bottom: 0; font-size: 0;}
+        }
+        @keyframes itemout {
+            from{opacity: 1;}
+            to{opacity: 0;}
+        }
+        @keyframes itemin {
+            from{opacity: 0;}
+            to{opacity: 1;}
         }
         #pfp{
             width: 200px;
@@ -221,7 +230,7 @@
         .edit{
             width: 90%;
             height: 60px;
-            border-radius: 10px 10px 0 0;
+            border-radius: 5px 5px 0 0;
             border-width: 2px;
             border-bottom-width: 0;
             border-style: dashed;
@@ -231,6 +240,8 @@
             justify-content: space-between;
             position: absolute;
             top: -62px;
+            opacity: 0.8;
+            left: 5%;
         }
         .moveuplink{
             background-image: url("up.png");
@@ -269,18 +280,9 @@
 
     <h3>Kim Jisoo</h3>
 
-    <div class="button"> 
-        <span>Instagram</span>
-        <div class="edit">
-            <div class="edit-item deletelink"></div>
-            <div class="edit-item-space"></div>
-            <div class="edit-item moveuplink"></div>
-            <div class="edit-item-space"></div>
-            <div class="edit-item movedownlink"></div>
-            <div class="edit-item-space"></div>
-            <div class="edit-item linkurl"></div>
-        </div>
-    </div>
+    <ul style="list-style: none; padding: 0;" id="linkul">
+        
+    </ul>
 
     <div class="button" id="addlink" onclick="ToDoInput()">NEW LINK</div>
 
@@ -289,7 +291,7 @@
             <source src="BGvideo.mp4" type="video/mp4">
         </video>
     </div>
-  
+
 </body>
 
 
@@ -331,6 +333,7 @@
     
     function AddToLinks() 
     {
+        var newlinkli = document.createElement("li");
         var newlink = document.createElement("div");
         newlink.setAttribute("class", "button");
 
@@ -341,29 +344,33 @@
         linkeditbar = document.createElement("div");
         linkeditbar.setAttribute("class", "edit");
         
-            itemspace1 = document.createElement("div");
+            itemspace1 = document.createElement("span");
             itemspace1.setAttribute("class", "edit-item-space");
-            itemspace2 = document.createElement("div");
+            itemspace2 = document.createElement("span");
             itemspace2.setAttribute("class", "edit-item-space");
-            itemspace3 = document.createElement("div");
+            itemspace3 = document.createElement("span");
             itemspace3.setAttribute("class", "edit-item-space");
 
-            deletelink = document.createElement("div");
+            deletelink = document.createElement("span");
             deletelink.setAttribute("class", "edit-item deletelink");
             deletelink.addEventListener("click", function(){
-                newlink.style.animation = "removeitem 1s 1";
+                newlink.style.animation = "removeitem 0.5s 1";
                 newlink.addEventListener('animationend', function() {
                     newlink.remove();
                 });
             });
 
-            editurl = document.createElement("div");
+            editurl = document.createElement("span");
             editurl.setAttribute("class", "edit-item linkurl");
+            editurl.addEventListener("click", function(){
+                editthislink = window.prompt("Link URL:\nex: https://twice.team");
 
-            moveup = document.createElement("div");
+            });
+
+            moveup = document.createElement("span");
             moveup.setAttribute("class", "edit-item moveuplink");
 
-            movedown = document.createElement("div");
+            movedown = document.createElement("span");
             movedown.setAttribute("class", "edit-item movedownlink");
 
         linkeditbar.appendChild(deletelink);
@@ -375,10 +382,20 @@
         moveup.before(itemspace3);
 
         newlink.appendChild(linkeditbar);
+        newlinkli.appendChild(newlink);
+   
+        $(function() {
+            $('.moveuplink').on('click', function(e) {
+                var wrapper = $(this).closest('li')
+                wrapper.insertBefore(wrapper.prev())
+            })
+            $('.movedownlink').on('click', function(e) {
+                var wrapper = $(this).closest('li')
+                wrapper.insertAfter(wrapper.next())
+            })
+        })
 
-        
-
-        document.getElementById("addlink").before(newlink);
+        document.getElementById("linkul").appendChild(newlinkli);
     }
 
 </script>
@@ -392,6 +409,33 @@
                 loading.remove();
             });
     });
+</script>
+
+<script>
+    function configupdown() {
+        var upLink = document.querySelectorAll(".moveuplink");
+
+        for (var i = 0; i < upLink.length; i++) {
+            upLink[i].addEventListener('click', function () {
+                var wrapper = this.parentElement.parentElement.parentElement;
+
+                if (wrapper.previousElementSibling)
+                    wrapper.parentNode.insertBefore(wrapper, wrapper.previousElementSibling);
+            });
+        }
+
+        var downLink = document.querySelectorAll(".movedownlink");
+
+        for (var i = 0; i < downLink.length; i++) {
+            downLink[i].addEventListener('click', function () {
+                var wrapper = this.parentElement.parentElement.parentElement;
+
+                if (wrapper.nextElementSibling){
+                    wrapper.parentNode.insertBefore(wrapper.nextElementSibling, wrapper);
+                }       
+            });
+        }
+    }
 </script>
 
 
