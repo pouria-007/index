@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
     <title>TWICE LINKS</title>
 
     <style>
@@ -175,19 +176,12 @@
             from{opacity: 0;}
             to{opacity: 1;}
         }
-        #pfp{
-            width: 200px;
-            height: 200px;
-            background-image: url("pfp.jpg");
-            background-size: contain;
-            border-radius: 100%;
-            border-width: 2px;
-            border-style: solid;
-            border-color: rgb(83, 36, 76);
-            margin: auto;
-            box-shadow: 0 0 30px rgb(122, 79, 118);
-        }
-        h3{
+        #name{
+            text-align: center;
+            font-family: newfont;
+            background: none;
+            border: 2px dashed rgba(110, 69, 98, 0.562);
+            color: rgba(126, 71, 126, 0.534);
             font-size: 40px;
             margin: 0;
             font-weight: 200;
@@ -252,13 +246,17 @@
             background-image: url("down.png");
             background-size: cover;
         }
-        .linkurl{
-            background-image: url("link.png");
-            background-size: cover;
-        }
         .deletelink{
             background-image: url("x.png");
             background-size: cover;
+        }
+        #done{
+            margin-top: 20px;
+            border-width: 1px;
+            border-color: plum;
+            font-weight: 100;
+            background-color: rgba(99, 68, 99, 0.459);
+            color: plum;
         }
         @media only screen and (min-width: 768px) {
             .button{
@@ -269,17 +267,12 @@
 
 </head>
 <body>
-    <div id="loading">
-    </div>
-
     <div id="errorlog"><div id="errorx">X</div><span id="error-m">Name can't be empty</span></div>
 
     <h1>TWICE</h1>
     <h2>LINKS</h2>
 
-    <div id="pfp"></div>
-
-    <h3>Kim Jisoo</h3>
+    <input type="text" id="name" placeholder="Your name">
 
     <ul style="list-style: none; padding: 0;" id="linkul">
         
@@ -287,157 +280,20 @@
 
     <div class="button" id="addlink" onclick="ToDoInput()">NEW LINK</div>
 
+    <div class="button" id="done">Done</div>
+
     <div class="space-bg">
         <video class="video" muted="" loop="" playsinline="" autoplay>
             <source src="BGvideo.mp4" type="video/mp4">
         </video>
     </div>
-
-</body>
-
-
-
-<script>
-    var linkname = '';
-    var linkaddress = '';
-
-    const error = document.getElementById("errorlog");
-    const messege = document.getElementById("error-m");
-
-    //Error Log
-    document.getElementById('errorx').addEventListener("click", function() {
-        error.style.animation = "errorout 0.5s 1";
-        error.addEventListener('animationend', function() {error.style = "top: -80px;"});
-    })
-    function errorman(sms) {
-        messege.innerText = sms;
-        error.style.animation = "errorin 0.5s 1";
-        error.addEventListener('animationend', function() {error.style = "top: 0;"});
-    }
-
-    //Add Link Function
-    function ToDoInput()
-    {
-        linkname = window.prompt("Link Name:\nex: Twice");
-        linkaddress = window.prompt("Link URL:\nex: https://twice.team");
-        
-        if (linkname == ''){
-            errorman("Link name can't be empty");
-        }
-        else if (linkaddress == ''){
-            errorman("Link URL can't be empty");
-        }
-        else {
-            AddToLinks();
-        }
-    }
+    <input type="text" id="code" style="display: none;" value="
     
-    function AddToLinks() 
-    {
-        var newlinkli = document.createElement("li");
-        var newlink = document.createElement("div");
-        newlink.setAttribute("class", "button");
 
-        linkspan = document.createElement("span");
-        linkspan.innerText = linkname;
-        newlink.appendChild(linkspan);
-
-        linkeditbar = document.createElement("div");
-        linkeditbar.setAttribute("class", "edit");
-        
-            itemspace1 = document.createElement("span");
-            itemspace1.setAttribute("class", "edit-item-space");
-            itemspace2 = document.createElement("span");
-            itemspace2.setAttribute("class", "edit-item-space");
-            itemspace3 = document.createElement("span");
-            itemspace3.setAttribute("class", "edit-item-space");
-
-            deletelink = document.createElement("span");
-            deletelink.setAttribute("class", "edit-item deletelink");
-            deletelink.addEventListener("click", function(){
-                newlink.style.animation = "removeitem 0.5s 1";
-                newlink.addEventListener('animationend', function() {
-                    newlink.remove();
-                });
-            });
-
-            editurl = document.createElement("span");
-            editurl.setAttribute("class", "edit-item linkurl");
-            editurl.addEventListener("click", function(){
-                editthislink = window.prompt("Link URL:\nex: https://twice.team");
-
-            });
-
-            moveup = document.createElement("span");
-            moveup.setAttribute("class", "edit-item moveuplink");
-
-            movedown = document.createElement("span");
-            movedown.setAttribute("class", "edit-item movedownlink");
-
-        linkeditbar.appendChild(deletelink);
-        linkeditbar.appendChild(moveup);
-        linkeditbar.appendChild(movedown);
-        linkeditbar.appendChild(editurl);
-        editurl.before(itemspace1);
-        movedown.before(itemspace2);
-        moveup.before(itemspace3);
-
-        newlink.appendChild(linkeditbar);
-        newlinkli.appendChild(newlink);
-   
-        $(function() {
-            $('.moveuplink').on('click', function(e) {
-                var wrapper = $(this).closest('li')
-                wrapper.insertBefore(wrapper.prev())
-            })
-            $('.movedownlink').on('click', function(e) {
-                var wrapper = $(this).closest('li')
-                wrapper.insertAfter(wrapper.next())
-            })
-        })
-
-        document.getElementById("linkul").appendChild(newlinkli);
-    }
-
-</script>
-
-
-<script>
-    window.addEventListener("load", function() {
-        var loading = document.getElementById("loading");
-        loading.style.animation = "fadeout 1s 1";
-        loading.addEventListener('animationend', function() {
-                loading.remove();
-            });
-    });
-</script>
-
-<script>
-    function configupdown() {
-        var upLink = document.querySelectorAll(".moveuplink");
-
-        for (var i = 0; i < upLink.length; i++) {
-            upLink[i].addEventListener('click', function () {
-                var wrapper = this.parentElement.parentElement.parentElement;
-
-                if (wrapper.previousElementSibling)
-                    wrapper.parentNode.insertBefore(wrapper, wrapper.previousElementSibling);
-            });
-        }
-
-        var downLink = document.querySelectorAll(".movedownlink");
-
-        for (var i = 0; i < downLink.length; i++) {
-            downLink[i].addEventListener('click', function () {
-                var wrapper = this.parentElement.parentElement.parentElement;
-
-                if (wrapper.nextElementSibling){
-                    wrapper.parentNode.insertBefore(wrapper.nextElementSibling, wrapper);
-                }       
-            });
-        }
-    }
-</script>
-
+    
+    ">
+</input>
+</body>
+<script src="app.js"></script>
 
 </html>
